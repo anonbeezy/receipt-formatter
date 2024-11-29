@@ -42,23 +42,25 @@ const prompt = ChatPromptTemplate.fromMessages([
   ],
 ])
 
-const formattedPrompt = await prompt.partial({
-  options: options.join(', '),
-  members: members.join(', '),
-})
+export const createSupervisorChain = async () => {
+  const formattedPrompt = await prompt.partial({
+    options: options.join(', '),
+    members: members.join(', '),
+  })
 
-const llm = new ChatOpenAI({
-  modelName: 'gpt-4o',
-  apiKey: process.env.OPENAI_TOKEN,
-  temperature: 0,
-})
+  const llm = new ChatOpenAI({
+    modelName: 'gpt-4o',
+    apiKey: process.env.OPENAI_TOKEN,
+    temperature: 0,
+  })
 
-export const supervisorChain = formattedPrompt
-  .pipe(
-    llm.bindTools([routingTool], {
-      tool_choice: 'route',
-    }),
-  )
-  .pipe(new JsonOutputToolsParser())
-  // select the first one
-  .pipe((x) => x[0].args)
+  return formattedPrompt
+    .pipe(
+      llm.bindTools([routingTool], {
+        tool_choice: 'route',
+      })
+    )
+    .pipe(new JsonOutputToolsParser())
+
+    .pipe((x) => x[0].args)
+}

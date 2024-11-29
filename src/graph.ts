@@ -5,7 +5,7 @@ import { HumanMessage } from '@langchain/core/messages'
 import { llmChain } from './chatgpt'
 import { AgentState } from './state'
 import { START, StateGraph } from '@langchain/langgraph'
-import { supervisorChain } from './supervisor'
+import { createSupervisorChain } from './supervisor'
 
 // Helper function to run a node for a given agent
 async function runAgentNode(props: {
@@ -34,7 +34,7 @@ async function runAgentNode(props: {
 export const receiptFormatterAgent = llmChain
 export const receiptFormatterNode = async (
   state: typeof AgentState.State,
-  config?: RunnableConfig,
+  config?: RunnableConfig
 ) => {
   return runAgentNode({
     state,
@@ -44,14 +44,19 @@ export const receiptFormatterNode = async (
   })
 }
 
-const workflow = new StateGraph(AgentState)
-  .addNode('receiptFormatter', receiptFormatterNode)
-  .addNode('supervisor', supervisorChain)
+export const createGraph = async (supervisorChain, receiptFormatterNode) => {
+  const workflow = new StateGraph(AgentState)
+    .addNode('receiptFormatter', receiptFormatterNode)
+    .addNode('supervisor', supervisorChain)
 
-workflow.addEdge('receiptFormatter', 'supervisor')
+  workflow.addEdge('receiptFormatter', 'supervisor')
 
-workflow.addConditionalEdges('supervisor', (x: typeof AgentState.State) => x.next)
+  workflow.addConditionalEdges(
+    'supervisor',
+    (x: typeof AgentState.State) => x.next
+  )
 
-workflow.addEdge(START, 'supervisor')
+  workflow.addEdge(START, 'supervisor')
 
-export const graph = workflow.compile()
+  return workflow.compile()
+}

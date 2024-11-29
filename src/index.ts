@@ -28,13 +28,6 @@ async function performOCR(imagePath: string) {
   return result.fullTextAnnotation?.text
 }
 
-// Listen for any kind of message. There are different kinds of
-// messages.
-// bot.on('message', (ctx) => {
-//   // send a message to the chat acknowledging receipt of their message
-//   ctx.sendMessage('Received your message')
-// })
-
 bot.on(message('photo'), async (ctx) => {
   const photo = ctx.message.photo.pop()
   if (!photo) {
@@ -60,7 +53,7 @@ bot.on(message('photo'), async (ctx) => {
     // ctx.reply(chatResponse)
 
     // Send the OCR result back to the user
-    // ctx.reply(`Extracted Text: ${text}`)
+    ctx.reply(`Extracted Text: ${receiptText}`)
 
     if (!receiptText) {
       ctx.reply('Could not read receipt')

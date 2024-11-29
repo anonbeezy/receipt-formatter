@@ -5,7 +5,7 @@ import { promptTemplate } from './template'
 // Initialize the OpenAI model
 export const model = new ChatOpenAI({
   model: 'gpt-4',
-  apiKey: process.env.OPENAI_TOKEN,
+  apiKey: process.env.OPENAI_API_KEY,
   temperature: 0.7, // Adjust as needed
 })
 

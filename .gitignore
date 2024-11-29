@@ -36,3 +36,5 @@ Thumbs.db
 coverage/
 *.tgz
 
+# Secret
+service-account-key.json
