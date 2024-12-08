@@ -12,12 +12,13 @@ const categories = {
   const budgetId = process.env.BUDGET_ID!;
   const accountId = process.env.ACCOUNT_ID!;
   try {
-    const test = categories.data.category_groups
-      .filter((x) => !x.hidden || !x.deleted)
-      .flatMap((x) => x.categories as any[])
-      .filter((x) => !x.hidden || !x.deleted)
-      .map(({ id, name }) => ({ id, name }));
-    console.log(test);
+    // const test = categories.data.category_groups
+    //   .filter((x) => !x.hidden || !x.deleted)
+    //   .flatMap((x) => x.categories as any[])
+    //   .filter((x) => !x.hidden || !x.deleted)
+    //   .map(({ id, name }) => ({ id, name }));
+    // console.log(test);
+    console.log(JSON.stringify(await ynabService.getPayees(budgetId), null, 2));
     // console.log(
     //   JSON.stringify(await ynabService.getCategories(budgetId), null, 2)
     // );
