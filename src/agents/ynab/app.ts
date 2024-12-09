@@ -15,9 +15,9 @@ export class YnabApp {
     return new StateGraph(YnabState)
       .addNode('api', this.apiNode)
       .addNode('format', this.formatNode)
-      .addEdge(START, 'api')
-      .addEdge('api', 'format')
-      .addEdge('format', END)
+      .addEdge(START, 'format')
+      .addEdge('format', 'api')
+      .addEdge('api', END)
       .compile();
   }
 }
