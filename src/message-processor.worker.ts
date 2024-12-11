@@ -5,9 +5,11 @@ import { BotService } from './bot.service';
 import { AppService } from './app.service';
 
 @Processor('telegram-messages', {
-  maxStalledCount: 3,
-  lockDuration: 30000, // 30 seconds
-  stalledInterval: 30000,
+  maxStalledCount: 1,
+  lockDuration: 60_000,
+  lockRenewTime: 15000,
+  stalledInterval: 300_000,
+  drainDelay: 300,
 })
 export class MessageProcessorWorker extends WorkerHost {
   private readonly logger = new Logger(MessageProcessorWorker.name);
@@ -51,7 +53,7 @@ export class MessageProcessorWorker extends WorkerHost {
     const result = await this.appService.processReceiptImage(imageUrl);
 
     this.logger.log(`Job processed successfully: ${JSON.stringify(job.data)}`);
-    this.botService.sendMessage(chatId, 'Your photo has been processed!');
+    await this.botService.sendMessage(chatId, 'Your photo has been processed!');
   }
 
   async processDefault(job: Job) {
