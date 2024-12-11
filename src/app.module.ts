@@ -26,10 +26,7 @@ import openaiConfig from './config/openai.config';
     CacheModule.registerAsync({
       useFactory: async (configService: ConfigService) => ({
         store: await redisStore({
-          socket: {
-            host: configService.get('redis.host'),
-            port: configService.get('redis.port'),
-          },
+          url: configService.get('redis.url'),
         }),
       }),
       inject: [ConfigService],
@@ -48,8 +45,7 @@ import openaiConfig from './config/openai.config';
     BullModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
         connection: {
-          host: configService.get('redis.host'),
-          port: configService.get('redis.port'),
+          url: configService.get('redis.url'),
         },
       }),
       inject: [ConfigService],
