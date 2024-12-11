@@ -44,13 +44,21 @@ A Telegram bot built with NestJS that processes receipt images using OCR, helps 
 git clone https://github.com/anonbeezy/receipt-formatter.git
 ```
 
-2. Install dependencies
+2. Install Node.js version
+
+The required Node.js version is specified in the `.node-version` and `.nvmrc` files. If you have NVM (Node Version Manager) installed, you can set up the correct version by running:
+
+```bash
+nvm install
+```
+
+3. Install dependencies
 
 ```bash
 pnpm install
 ```
 
-3. Set up environment variables
+4. Set up environment variables
 
 ```bash
 cp env.sample .env
@@ -67,7 +75,7 @@ YNAB_ACCESS_TOKEN=your_ynab_token
 YNAB_BUDGET_ID=your_budget_id
 ```
 
-4. Set up YNAB Integration
+5. Set up YNAB Integration
 
 - Log in to your YNAB account
 - Go to Account Settings > Developer Settings
@@ -75,7 +83,7 @@ YNAB_BUDGET_ID=your_budget_id
 - Copy the token to your .env file
 - Get your budget ID from the YNAB URL when viewing your budget
 
-4. Run the bot
+6. Run the bot
 
 ```bash
 pnpm start
