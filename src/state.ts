@@ -1,5 +1,5 @@
-import { END, Annotation } from '@langchain/langgraph'
-import { BaseMessage } from '@langchain/core/messages'
+import { END, Annotation } from '@langchain/langgraph';
+import { BaseMessage } from '@langchain/core/messages';
 
 // This defines the object that is passed between each node
 // in the graph. We will create different nodes for each agent and tool
@@ -13,4 +13,4 @@ export const AgentState = Annotation.Root({
     reducer: (x, y) => y ?? x ?? END,
     default: () => END,
   }),
-})
+});
