@@ -12,7 +12,7 @@ importers:
         specifier: ^4.3.2
         version: 4.3.2(encoding@0.1.13)
       '@langchain/core':
-        specifier: ^0.3.23
+        specifier: 0.3.23
         version: 0.3.23(openai@4.73.0(encoding@0.1.13)(zod@3.24.1))
       '@langchain/langgraph':
         specifier: ^0.2.33
