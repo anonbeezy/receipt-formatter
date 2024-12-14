@@ -17,7 +17,13 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config jest.e2e.config.mjs"
+    "test:e2e": "jest --config jest.e2e.config.mjs",
+    "prepare": "husky install",
+    "deps:check": "ncu",
+    "deps:update": "ncu -u && pnpm install",
+    "deps:interactive": "ncu -i",
+    "deps:patch": "ncu -u --target patch && pnpm install",
+    "deps:minor": "ncu -u --target minor && pnpm install"
   },
   "dependencies": {
     "@google-cloud/vision": "^4.3.2",
@@ -62,7 +68,10 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.2.1",
     "globals": "^15.12.0",
+    "husky": "^8.0.0",
     "jest": "^29.7.0",
+    "lint-staged": "^15.2.11",
+    "npm-check-updates": "^17.1.11",
     "prettier": "^3.4.1",
     "source-map-support": "^0.5.21",
     "supertest": "^6.3.3",
@@ -73,5 +82,14 @@
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.16.0"
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
   }
 }
