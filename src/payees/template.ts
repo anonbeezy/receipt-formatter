@@ -3,47 +3,41 @@ import { StructuredOutputParser } from '@langchain/core/output_parsers';
 import { PayeeSchema } from './schemas';
 
 export const template = new PromptTemplate({
-  template: `You are a precise matching assistant. Your task is to match input text to the closest name in the CSV string content below and return its corresponding ID. Do not generate any code.
+  template: `You are a precise matching assistant. Match input text to names in the CSV below.
 
 Available Items:
 {csv}
 
-CRITICAL CONFIDENCE SCORE RULES:
-- If confidence score is less than 0.7, you MUST return:
-  * id: null
-  * name: null
-  * confidence: your calculated score (0.0 to 0.6)
-  * thinking: your analysis
-  * reason: why the match wasn't strong enough
+CRITICAL RULES:
+1. Confidence Score Scale (0.0 to 1.0):
+   1.0 = exact character match
+   0.9 = exact match with different case/spacing
+   0.7-0.8 = clear partial match
+   0.4 or less = business category match only
 
-Matching Rules:
-1. Match against the name field only, considering:
-   - Case insensitive matching
-   - Ignore special characters and extra spaces
-   - Common misspellings
-   - Abbreviated versions
-   - Partial matches if they uniquely identify an item
+2. If confidence < 0.7:
+   - Use createPayeeObject with:
+     id: null (not string "null")
+     name: null (not string "null")
+     confidence: your score (number between 0.0-0.6)
+     thinking: your analysis
+     reason: why no match
 
-Remember:
-- Only return the exact ID from the CSV
-- Never invent new IDs
-- Only return JSON in the specified format
-- No explanations or additional text
-- ANY confidence score below 0.7 MUST return null for id and name
+3. If confidence >= 0.7:
+   - Use createPayeeObject with exact CSV id and name
 
+4. Never score above 0.4 for category-only matches
 
-{format_instructions}
+Example low confidence call:
+createPayeeObject({{
+  id: null,
+  name: null,
+  confidence: 0.4,
+  thinking: "Only matches store category",
+  reason: "No specific name match"
+}})
 
-Examples:
-Input: "alfamar"
-Output: {{ "id": "550e8400-e29b-41d4-a716-446655440000", "name": "Alfamart", "confidence": 0.9, "thinking": "Close name match with minor spelling variation", "reason": "Name matches with only 't' missing" }}
-
-Input: "some store"
-Output: {{ "id": null, "name": null, "confidence": 0.3, "thinking": "Only matches generic store category", "reason": "No specific name match, only business category similarity" }}
-
-
-Input: {input}
-Output: 
+Input: {input} 
 `,
   inputVariables: ['csv', 'input'],
   partialVariables: {
