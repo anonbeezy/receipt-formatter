@@ -27,12 +27,10 @@
     "deps:patch": "ncu -u --target patch && pnpm install",
     "deps:minor": "ncu -u --target minor && pnpm install"
   },
-  "peerDependencies": {
-    "@langchain/core": "0.3.23"
-  },
   "dependencies": {
     "@google-cloud/vision": "^4.3.2",
-    "@langchain/langgraph": "^0.2.33",
+    "@langchain/core": "^0.3.23",
+    "@langchain/langgraph": "0.2.33",
     "@langchain/openai": "^0.3.14",
     "@nestjs/bullmq": "^10.2.3",
     "@nestjs/cache-manager": "^2.3.0",
