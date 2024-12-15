@@ -8,9 +8,9 @@ export class PayeesGraph {
   constructor(private readonly matchPayeeNode: MatchPayeeNode) {}
   compile() {
     return new StateGraph(PayeesState)
-      .addNode('transform', this.matchPayeeNode)
-      .addEdge(START, 'transform')
-      .addEdge('transform', END)
+      .addNode('matchPayee', this.matchPayeeNode)
+      .addEdge(START, 'matchPayee')
+      .addEdge('matchPayee', END)
       .compile();
   }
 }

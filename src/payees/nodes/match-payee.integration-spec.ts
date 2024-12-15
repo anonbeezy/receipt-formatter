@@ -49,7 +49,7 @@ describe('MatchPayeeNode (integration)', () => {
     await module.close();
   });
 
-  describe('run', () => {
+  describe('invoke', () => {
     it('should match the payee name', async () => {
       const payeeName = 'STORES SPECIALISTS';
       const result = await matchPayeeNode.invoke({
@@ -65,6 +65,7 @@ describe('MatchPayeeNode (integration)', () => {
       });
       expect(result.payee.confidence).toBeLessThan(0.7);
     });
+
     it.skip('should match the payee name', async () => {
       const payeeName = 'alfamar';
       const result = await matchPayeeNode.invoke({

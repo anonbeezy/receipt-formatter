@@ -28,7 +28,7 @@ export class MatchPayeeNode extends Runnable<Input, Output> {
   }
 
   async invoke(input: Input): Promise<Output> {
-    this.logger.log('Executing transformNode');
+    this.logger.log('Executing matchPayeeNode');
 
     const modelWithTools = this.model.bindTools([payeeObjectTool]);
 
