@@ -1,7 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { TransactionState } from '../state';
 import { ToolNode } from '@langchain/langgraph/prebuilt';
-import { YnabService } from 'src/ynab/ynab.service';
 import { TransactionsService } from '../transactions.service';
 import { Payee } from 'src/payees/schemas';
 import { Transaction } from '../schemas';
@@ -16,8 +15,8 @@ const getPayeeIdOrName = (
 };
 
 @Injectable()
-export class CreateNode extends ToolNode {
-  private readonly logger = new Logger(CreateNode.name);
+export class CreateTransactionNode extends ToolNode {
+  private readonly logger = new Logger(CreateTransactionNode.name);
   constructor(private readonly transactionsService: TransactionsService) {
     super([]);
   }
