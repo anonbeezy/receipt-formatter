@@ -4,13 +4,14 @@ import { ToolNode } from '@langchain/langgraph/prebuilt';
 import { TransactionsService } from '../transactions.service';
 import { Payee } from 'src/payees/schemas';
 import { Transaction } from '../schemas';
+import { Store } from 'src/receipt-processing/schemas';
 
 const getPayeeIdOrName = (
-  transaction: Transaction,
+  store: Store,
   payee: Payee,
 ): Pick<Transaction, 'payeeId' | 'payeeName'> => {
   return payee.id === null
-    ? { payeeId: null, payeeName: payee.name }
+    ? { payeeId: null, payeeName: store.name }
     : { payeeId: payee.id, payeeName: null };
 };
 
@@ -23,7 +24,7 @@ export class CreateTransactionNode extends ToolNode {
   async run(state: typeof TransactionState.State) {
     this.logger.log('Executing createNode');
 
-    const { extractedTransaction, category, payee } = state;
+    const { extractedTransaction, extractedStore, category, payee } = state;
 
     try {
       const apiResponse = await this.transactionsService.create({
@@ -31,7 +32,7 @@ export class CreateTransactionNode extends ToolNode {
           ? new Date(extractedTransaction.date).toISOString()
           : new Date().toISOString(),
         amount: extractedTransaction.amount,
-        ...getPayeeIdOrName(extractedTransaction, payee),
+        ...getPayeeIdOrName(extractedStore, payee),
         categoryId: category ? category.id : null,
       });
       return {

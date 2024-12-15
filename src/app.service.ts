@@ -84,6 +84,8 @@ export class AppService {
       .addNode('transactions', (state: typeof OverallStateAnnotation.State) =>
         transactionsApp.invoke({
           extractedTransaction: state.extractedTransaction,
+          extractedStore: state.extractedStore,
+          extractedLineItems: state.extractedLineItems,
           category: state.category,
           payee: state.payee,
         }),
