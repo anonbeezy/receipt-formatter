@@ -9,6 +9,7 @@ Rules:
 3. Skip subtotals/running totals
 4. Exclude tax/tip/fees from line items
 5. Use null for missing information
+6. For store name, ONLY use the very first business name that appears at the very top of the receipt. Ignore any corporate/franchise names that appear later in the receipt.
 
 Extract the following and pass to createReceiptObject:
 - transaction: {{date, amount}}
