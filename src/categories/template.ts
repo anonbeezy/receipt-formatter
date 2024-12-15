@@ -1,44 +1,44 @@
 import { PromptTemplate } from '@langchain/core/prompts';
-import { StructuredOutputParser } from '@langchain/core/output_parsers';
-import { CategorySchema } from './schemas';
 
 export const template = new PromptTemplate({
-  template: `You are a precise matching assistant. Your task is to match input text to the closest name in the CSV string content below and return its corresponding ID. Do not generate any code.
+  template: `You are a precise matching assistant. Match input text to names in the CSV below.
 
 Available Items:
 {csv}
 
-Matching Rules:
-1. Match against the name field only, considering:
-   - Case insensitive matching
-   - Ignore special characters and extra spaces
-   - Common misspellings
-   - Abbreviated versions
-   - Partial matches if they uniquely identify an item
+CRITICAL RULES:
+1. Confidence Score Scale (0.0 to 1.0):
+   1.0 = exact character match
+   0.9 = exact match with different case/spacing
+   0.7-0.8 = clear partial match
+   0.4 or less = weak category similarity
 
-Remember:
-- Only return the exact ID from the CSV
-- Never invent new IDs
-- Only return JSON in the specified format
-- No explanations or additional text
+2. If confidence < 0.7:
+   - Use createCategoryObject with:
+     id: null (JavaScript null, NOT the string "null")
+     name: null (JavaScript null, NOT the string "null")
+     confidence: your score (number between 0.0-0.6)
+     thinking: your analysis
+     reason: why no match
 
-{format_instructions}
+3. If confidence >= 0.7:
+   - Use createCategoryObject with exact CSV id and name
 
-Examples:
-Input: "grocery"
-Output: {{ "id": "550e8400-e29b-41d4-a716-446655440000", "name": "Groceries", "confidence": 0.9 }}
+4. Consider common category variations:
+   - Plural/singular forms
+   - Common abbreviations
+   - Related terms (e.g., "food" matches "groceries")
 
-Input: "something not in list"
-Output: {{ "id": null, "name": null, "confidence": 0.0 }}
+Example low confidence call:
+createCategoryObject({{
+  id: null,  // Must be JavaScript null value, not string "null"
+  name: null,  // Must be JavaScript null value, not string "null"
+  confidence: 0.4,
+  thinking: "Only matches store category",
+  reason: "No specific name match"
+}})
 
 Input: {input}
-Output: 
 `,
   inputVariables: ['csv', 'input'],
-  partialVariables: {
-    format_instructions:
-      StructuredOutputParser.fromZodSchema(
-        CategorySchema,
-      ).getFormatInstructions(),
-  },
 });

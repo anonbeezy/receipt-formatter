@@ -2,6 +2,9 @@
 
 - [ ] If category cannot be matched then ask the user for input
 - [ ] Use extracted line items to match a category
+- [ ] Create multiple transactions from a single receipt
+- [ ] Parallelize the receipt processing
+- [ ] When a category cannot be matched, suggest a relevant category to the user based on the transaction details
 
 # Tech Excellence
 
