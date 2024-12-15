@@ -40,6 +40,7 @@ const TransactionSchema = z.object({
   confidence: z.number().describe('The confidence of the transaction'),
   thinking: z.string().describe('The reasoning behind the transaction'),
   reason: z.string().describe('The reason for the transaction'),
+  dateReason: z.string().describe('The reason for the transaction date'),
 });
 
 const LineItemSchema = z.object({
