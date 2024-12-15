@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
 import { OcrService } from './ocr.service';
 import { ReceiptProcessingGraph } from './receipt-processing.graph';
-import { TransformNode } from './nodes/transform';
-import { FormatNode } from './nodes/format';
+import { ReceiptParserNode } from './nodes/receipt-parser';
 import { ExtractTextNode } from './nodes/extract';
 import { IMAGE_DOWNLOADS_DIRPATH } from './constants';
 import * as vision from '@google-cloud/vision';
@@ -15,8 +14,7 @@ import { mkdir } from 'node:fs/promises';
   providers: [
     OcrService,
     ExtractTextNode,
-    FormatNode,
-    TransformNode,
+    ReceiptParserNode,
     ReceiptProcessingGraph,
     {
       provide: IMAGE_DOWNLOADS_DIRPATH,

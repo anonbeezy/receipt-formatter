@@ -36,12 +36,19 @@ const TransactionSchema = z.object({
       'The transaction memo or note. Suggest a relevant memo based on the items purchased.',
     )
     .optional(),
+
+  confidence: z.number().describe('The confidence of the transaction'),
+  thinking: z.string().describe('The reasoning behind the transaction'),
+  reason: z.string().describe('The reason for the transaction'),
 });
 
 const LineItemSchema = z.object({
   name: z.string().describe('The name of the item'),
   quantity: z.number().describe('The quantity of the item'),
   price: z.number().describe('The price of the item'),
+  confidence: z.number().describe('The confidence of the item name'),
+  thinking: z.string().describe('The reasoning behind the item name'),
+  reason: z.string().describe('The reason for the item name'),
 });
 
 const StoreSchema = z.object({
@@ -52,6 +59,9 @@ const StoreSchema = z.object({
   taxId: z
     .string()
     .describe('The store tax ID or business number (aka EIN or TIN)'),
+  confidence: z.number().describe('The confidence of the store name'),
+  thinking: z.string().describe('The reasoning behind the store name'),
+  reason: z.string().describe('The reason for the store name'),
 });
 
 export { TransactionSchema, LineItemSchema, StoreSchema };

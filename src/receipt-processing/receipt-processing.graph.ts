@@ -1,26 +1,22 @@
 import { END, START, StateGraph } from '@langchain/langgraph';
 import { ReceiptProcessingState } from './state';
 import { ExtractTextNode } from './nodes/extract';
-import { FormatNode } from './nodes/format';
-import { TransformNode } from './nodes/transform';
+import { ReceiptParserNode } from './nodes/receipt-parser';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ReceiptProcessingGraph {
   constructor(
     private readonly extractNode: ExtractTextNode,
-    private readonly formatNode: FormatNode,
-    private readonly transformNode: TransformNode,
+    private readonly receiptParserNode: ReceiptParserNode,
   ) {}
   compile() {
     return new StateGraph(ReceiptProcessingState)
       .addNode('extractText', this.extractNode)
-      .addNode('transform', this.transformNode)
-      .addNode('formatReceipt', this.formatNode)
+      .addNode('receiptParser', this.receiptParserNode)
       .addEdge(START, 'extractText')
-      .addEdge('extractText', 'transform')
-      .addEdge('transform', 'formatReceipt')
-      .addEdge('formatReceipt', END)
+      .addEdge('extractText', 'receiptParser')
+      .addEdge('receiptParser', END)
       .compile();
   }
 }
