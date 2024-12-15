@@ -40,8 +40,6 @@ export class ReceiptParserNode extends Runnable<Input, Output> {
       date: new Date().toISOString(),
     });
 
-    console.log(result);
-
     const receipt = result.tool_calls?.[0]?.args ?? {
       id: null,
       name: null,
