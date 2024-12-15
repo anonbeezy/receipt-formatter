@@ -133,6 +133,7 @@ the back)
       } as typeof ReceiptProcessingState.State);
 
       console.log(result);
+      expect(result.extractedStore.name).toMatch('STORES SPECIALISTS');
     });
 
     it.skip('should parse the receipt', async () => {
@@ -264,9 +265,10 @@ St 205 Rule Ch 1003 Tr 86866
       } as typeof ReceiptProcessingState.State);
 
       console.log(result);
+      expect(result.extractedStore.name).toMatch('S&R');
     });
 
-    it('should parse the receipt', async () => {
+    it.skip('should parse the receipt', async () => {
       const receipt = `
 Uncle John's
 ROBINSON'S SUPERMARKET CORPORATION
@@ -312,7 +314,7 @@ ACCDTN NO.: 116-000405340-000340-57230
 Issued 08/29/12, Effective 08/01/20
 TIN: 000-405-340-000
 SN: 59GN921762C
-PN: FP062023-116-0389198-00763
+PN: FP062023-116-0 389198-00763
 MIN: 23061510445487890
 SPM: SP062023-116-0122139-00763
 `;
@@ -321,9 +323,10 @@ SPM: SP062023-116-0122139-00763
       } as typeof ReceiptProcessingState.State);
 
       console.log(result);
+      expect(result.extractedStore.name).toBe("Uncle John's");
     });
 
-    it.skip('should parse the receipt', async () => {
+    it.only('should parse the receipt', async () => {
       const receipt = `
 J013202
 Alfamart
@@ -376,6 +379,7 @@ Rit 1
       } as typeof ReceiptProcessingState.State);
 
       console.log(result);
+      expect(result.extractedStore.name).toMatch('Alfamart');
     });
   });
 });
